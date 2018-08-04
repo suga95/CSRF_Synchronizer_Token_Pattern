@@ -7,12 +7,12 @@
 					$psw=$_POST['psw'];
 				
 				   if ($uname == 'SUGA' && $psw == '1234') 
-				   {				  
-					  
+				   {  
 					  echo 'Hello SUGA You are Welcome here!';
 				   }
 				   else {
 					  $msg = 'Wrong username or password';
+					  echo $msg;
 					  exit();
 				   }
             }
@@ -23,10 +23,27 @@
 <head>
 	<title> Synchronizer Token Pattern Protection for Cross Site Request Foregery</title>
 	<link rel="stylesheet" href="myStyle2.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function()
+	{
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("csrf_token_hidden").setAttribute('value', this.responseText);
+			}
+		};
+		xhttp.open("GET", "genCSRF.php", true);
+		xhttp.send();
+	});
+	</script>
 </head>
 <body>
 
-<form action="/action_page.php" style="border:1px solid #ccc" method="post">
+<form action="checkCSRFtoken.php" style="border:1px solid #ccc" method="post">
   <div class="container">
     <h1>User Registration</h1>
     <p>Please fill in this form to Update Your Details</p>

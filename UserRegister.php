@@ -1,6 +1,28 @@
 <?php
-            $msg = '';
-            
+
+		# Session and CSRF Token Cookie are created at this point
+		# By using standard PHP 'session_start()' functionality
+		# Either way, 'bin2hex(random_bytes(32))' OR 'base64_encode(openssl_random_pseudo_bytes(32))' can be used to create CSRF token at a secure way
+		session_start();
+		$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+		#$_SESSION['csrf_token'] = base64_encode(openssl_random_pseudo_bytes(32));
+
+		$session_id = session_id();
+		$_SESSION['session_id'] = $session_id;
+		$CSRF_COOKIE = 'csrf_cookie';
+		
+		
+		# Time is set for the session, as it needs to be expired at a given time
+		setcookie('$CSRF_COOKIE',$session_id,time()+60*60*30,'/');
+		
+		
+		echo "My session id " .$_SESSION['session_id']. "<br>";
+		echo "My CSRF cookie " .$_SESSION['csrf_token']. "<br>";
+		echo("<script> console.log('Hello')</script>");
+		
+		#Validation part of User Login is below
+		    $msg = '';
+			           
             if (isset($_POST['login']) && !empty($_POST['uname']) && !empty($_POST['psw'])) 
 			   {
 					$uname=$_POST['uname'];
@@ -26,6 +48,10 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+	
+	//JS function is called in oder to generate CSRF token and display as hidden field in the
+	//presentaion layer
+	
 	$(document).ready(function()
 	{
 		var xhttp = new XMLHttpRequest();
@@ -75,6 +101,7 @@
 	<div class="clearfix">
       <button type="button" class="cancelbtn">Cancel</button>
 	  <input type="submit" value="Submit" class="signupbtn">
+	  <!-- Hidden field to store the CSRF and SESSIOn values -->
       <input type="hidden" name="csrf_token" value="" id="csrf_token_hidden"/>
     </div>
 	    

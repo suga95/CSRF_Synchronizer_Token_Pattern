@@ -1,17 +1,3 @@
-<?php
-
-session_start();
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-
-$session_id = session_id();
-$CSRF_COOKIE = 'csrf_cookie';
-
-setcookie($CSRF_COOKIE,$session_id,time()+60*60*30,'/');
-
-echo "Value is: " . $_COOKIE[$CSRF_COOKIE];
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>

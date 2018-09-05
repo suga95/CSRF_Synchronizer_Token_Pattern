@@ -13,12 +13,12 @@
 		
 		
 		# Time is set for the session, as it needs to be expired at a given time
-		setcookie('$CSRF_COOKIE',$session_id,time()+60*60*30,'/');
+		setcookie($CSRF_COOKIE,$session_id,time()+60*60*30,'/');
 		
 		
-		echo "My session id " .$_SESSION['session_id']. "<br>";
-		echo "My CSRF cookie " .$_SESSION['csrf_token']. "<br>";
-		echo("<script> console.log('Hello')</script>");
+		// echo "My session id " .$_SESSION['session_id']. "<br>";
+		// echo "My CSRF cookie " .$_SESSION['csrf_token']. "<br>";
+		// echo("<script> console.log('$session_id')</script>");
 		
 		#Validation part of User Login is below
 		    $msg = '';
